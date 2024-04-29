@@ -1,21 +1,6 @@
 /* Javascript for VideoIframeXBlock. */
 function VideoIframeXBlock(runtime, element, data) {
 
-    function updateCount(result) {
-        $('.count', element).text(result.count);
-    }
-
-    var handlerUrl = runtime.handlerUrl(element, 'increment_count');
-
-    $('p', element).click(function(eventObject) {
-        $.ajax({
-            type: "POST",
-            url: handlerUrl,
-            data: JSON.stringify({"hello": "world"}),
-            success: updateCount
-        });
-    });
-
     wrapper_width = $('.video_wrapper', element).width();
     $('.video_wrapper', element).height(wrapper_width*0.6);
 
@@ -24,13 +9,13 @@ function VideoIframeXBlock(runtime, element, data) {
     display_name = data['display_name']
     iframe_link = data['iframe_link']
 
-    if(video_download_link || video_download_link!==""){
+    if(video_download_link){
         $('.downloads_wrapper', element).css('display', 'flex');
         $('.video_download_wrapper', element).show();
         $('#video_download_link', element).attr('href', video_download_link)
     }
 
-    if(captions_download_link || captions_download_link!==""){
+    if(captions_download_link){
         $('.downloads_wrapper', element).css('display', 'flex');
         $('.captions_download_wrapper', element).show();
         $('#captions_download_link', element).attr('href', captions_download_link)
