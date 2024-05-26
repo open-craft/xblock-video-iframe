@@ -121,6 +121,23 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
         )
         return frag
 
+    def student_view_data(self, context=None):
+        """
+        Returns a JSON representation of the student_view of this XBlock.
+        """
+        return {
+            'display_name': self.display_name,
+            'iframe_link': self.iframe_link,
+            'captions_download_link': self.captions_download_link,
+            'encoded_videos': {
+                 'fallback': {
+                        "url": self.video_download_link,
+                        "file_size": 0,
+                        "stream_priority": 6
+                    }
+            }
+        }
+
     @staticmethod
     def workbench_scenarios():
         """Create canned scenario for display in the workbench."""
