@@ -31,10 +31,10 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
     icon_class = "video"
 
     display_name = String(
-        default="Video",
+        display_name=_("Video Title"),
         default="Video Iframe",
         scope=Scope.settings,
-        help=_("This name appears in the horizontal navigation at the top of the page.")
+        help=_("This name appears at the top of the video.")
     )
 
     iframe_link = String(
@@ -42,6 +42,13 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
         default="",
         scope=Scope.settings,
         help=_("Video link copied from Media Dashboard.")
+    )
+
+    description = String(
+        display_name=_("Video Description"),
+        default="",
+        scope=Scope.settings,
+        help=_("Optional description appears below the video.")
     )
 
     video_download_link = String(
@@ -58,7 +65,7 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
         help=_("Optional captions/transcript download link copied from Media Dashboard.")
     )
 
-    editable_fields = ('display_name', 'iframe_link', 'video_download_link', 'captions_download_link')
+    editable_fields = ('display_name', 'iframe_link', 'description', 'video_download_link', 'captions_download_link')
 
     loader = ResourceLoader(__name__)
 
@@ -115,6 +122,7 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
         frag.initialize_js(
             'VideoIframeXBlock', {
                 'display_name': self.display_name,
+                'description': self.description,
                 'iframe_link': self.iframe_link,
                 'video_download_link': self.video_download_link,
                 'captions_download_link': self.captions_download_link
