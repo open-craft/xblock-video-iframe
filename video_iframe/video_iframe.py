@@ -18,7 +18,7 @@ try:
 except ModuleNotFoundError:  # For compatibility with Palm and earlier
     from xblockutils.resources import ResourceLoader
 
-from xblock.validation import ValidationMessage
+from xblock.validation import Validation, ValidationMessage
 
 
 class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
@@ -29,6 +29,7 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
     """
 
     icon_class = "video"
+    has_author_view = True
 
     display_name = String(
         display_name=_("Video Title"),
@@ -106,7 +107,13 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
         for k in data:
             data[k] = data[k].strip()
 
-    def student_view(self, context=None):
+    def validate(self):
+        """
+        Override validate method in StudioEditableXBlockMixin to prevent validation is Studio preview.
+        """
+        return Validation(self.scope_ids.usage_id)
+
+    def student_view(self, context=None, display_studio_instructions=False):
         """
         Create primary view of the VideoIframeXBlock, shown to students when viewing courses.
         """
@@ -125,10 +132,17 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
                 'description': self.description,
                 'iframe_link': self.iframe_link,
                 'video_download_link': self.video_download_link,
-                'captions_download_link': self.captions_download_link
+                'captions_download_link': self.captions_download_link,
+                'display_studio_instructions': display_studio_instructions
             }
         )
         return frag
+
+    def author_view(self, context=None):
+        """
+        Create preview to be show to course authors in Studio.
+        """
+        return self.student_view(context=context, display_studio_instructions=(not self.iframe_link))
 
     @staticmethod
     def workbench_scenarios():
