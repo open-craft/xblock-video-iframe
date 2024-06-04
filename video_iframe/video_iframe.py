@@ -142,7 +142,7 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
         """
         Create preview to be show to course authors in Studio.
         """
-        return self.student_view(context=context, display_studio_instructions=(not self.iframe_link))
+        return self.student_view(context=context, display_studio_instructions=not self.iframe_link)
 
     @staticmethod
     def workbench_scenarios():
