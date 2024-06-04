@@ -32,6 +32,7 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
 
     display_name = String(
         default="Video",
+        default="Video Iframe",
         scope=Scope.settings,
         help=_("This name appears in the horizontal navigation at the top of the page.")
     )
