@@ -1,6 +1,16 @@
 XBlock to embed video content using iframe along with download buttons
 ######################################################################
 
+
+Usage
+*****
+
+1. Go to `Settings -> Advanced Settings` in a specific course within Studio.
+2. Add `"video_iframe"` to `Advanced Module List` and save.
+3. Add `Advanced -> Video Iframe` unit to the course.
+4. Add a valid URL to the `Video URL` field and optionally add `Video Description`, `Video Download URL` and `Captions Download URL` and/or modify `Video Title`. 
+
+
 Testing with Docker
 ********************
 
