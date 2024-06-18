@@ -14,7 +14,27 @@ Change Log
 Unreleased
 **********
 
-*
+* 
+
+1.0.0 – 2024-04-28
+**********************************************
+
+Added
+=====
+
+* Author view to display custom message with instructions if no video url is detected. Also disable validations for author view to supress default validation failure messages.
+
+Removed
+=======
+
+* `autoplay` from allow attribute passed to the iframe.
+
+Changed
+=======
+
+* Title of `display_name` field to `Video Title` and modified the description.
+* Default display name of the XBlock as displayed in the Advanced XBlocks selection list from `Video` to `Video Iframe`.
+
 
 0.1.0 – 2024-04-28
 **********************************************
@@ -22,4 +42,4 @@ Unreleased
 Added
 =====
 
-* First release on PyPI.
+* First iteration of XBlock.

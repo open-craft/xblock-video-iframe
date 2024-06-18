@@ -14,6 +14,45 @@
     background-color: #F5F5F5;
 }
 
+.video_iframe_block .description_wrapper {
+    display: none;
+    position: relative;
+    padding: 1%;
+    width: 98%;
+    background-color: #F5F5F5;
+    font-weight: 400;
+}
+
+.video_iframe_block .author_instruction_wrapper {
+    display: none;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 5%;
+}
+
+.video_iframe_block .author_instruction_header_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.author_instruction_header {
+    margin-left: 2px;
+}
+
+.video_iframe_block #author_instruction_text {
+    font-weight: 400;
+    margin-bottom: 3px;
+}
+
+.video_iframe_block #description {
+    font-weight: 400;
+    margin-bottom: 3px;
+}
+
 .video_iframe_block .downloads_wrapper {
     display: none;
     flex-direction: row;

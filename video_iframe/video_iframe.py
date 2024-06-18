@@ -18,7 +18,7 @@ try:
 except ModuleNotFoundError:  # For compatibility with Palm and earlier
     from xblockutils.resources import ResourceLoader
 
-from xblock.validation import ValidationMessage
+from xblock.validation import Validation, ValidationMessage
 
 
 class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
@@ -29,11 +29,13 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
     """
 
     icon_class = "video"
+    has_author_view = True
 
     display_name = String(
-        default="Video",
+        display_name=_("Video Title"),
+        default="Video Iframe",
         scope=Scope.settings,
-        help=_("This name appears in the horizontal navigation at the top of the page.")
+        help=_("This name appears at the top of the video.")
     )
 
     iframe_link = String(
@@ -41,6 +43,13 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
         default="",
         scope=Scope.settings,
         help=_("Video link copied from Media Dashboard.")
+    )
+
+    description = String(
+        display_name=_("Video Description"),
+        default="",
+        scope=Scope.settings,
+        help=_("Optional description appears below the video.")
     )
 
     video_download_link = String(
@@ -57,7 +66,7 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
         help=_("Optional captions/transcript download link copied from Media Dashboard.")
     )
 
-    editable_fields = ('display_name', 'iframe_link', 'video_download_link', 'captions_download_link')
+    editable_fields = ('display_name', 'iframe_link', 'description', 'video_download_link', 'captions_download_link')
 
     loader = ResourceLoader(__name__)
 
@@ -98,7 +107,13 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
         for k in data:
             data[k] = data[k].strip()
 
-    def student_view(self, context=None):
+    def validate(self):
+        """
+        Override validate method in StudioEditableXBlockMixin to prevent validation is Studio preview.
+        """
+        return Validation(self.scope_ids.usage_id)
+
+    def student_view(self, context=None, display_studio_instructions=False):
         """
         Create primary view of the VideoIframeXBlock, shown to students when viewing courses.
         """
@@ -114,12 +129,20 @@ class VideoIframeXBlock(StudioEditableXBlockMixin, XBlock):
         frag.initialize_js(
             'VideoIframeXBlock', {
                 'display_name': self.display_name,
+                'description': self.description,
                 'iframe_link': self.iframe_link,
                 'video_download_link': self.video_download_link,
-                'captions_download_link': self.captions_download_link
+                'captions_download_link': self.captions_download_link,
+                'display_studio_instructions': display_studio_instructions
             }
         )
         return frag
+
+    def author_view(self, context=None):
+        """
+        Create preview to be show to course authors in Studio.
+        """
+        return self.student_view(context=context, display_studio_instructions=not self.iframe_link)
 
     @staticmethod
     def workbench_scenarios():
